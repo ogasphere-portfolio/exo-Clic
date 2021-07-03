@@ -1,7 +1,7 @@
 const init = () => {
     console.log("init");
 
-    const itemForm = document.querySelector("#colors-form");
+    const itemForm = document.querySelector("#shop-item-form");
 
     // On branche un exouteur sur l'evenement 'Submit' du formulaire #shop-item-form
     // si il est déclenché on appelle la callBack handleSubmit
@@ -20,35 +20,37 @@ function handleSubmit(event) {
   // et donc j'empeche le rechargement de la page !
 
   event.preventDefault();
-  
-  //  On récupére la valeur de input du formulaire
-  const inputValue = getInputValue();
 
-  // On verifie que le contenu de inputValue soit bien une couleur hexadecimale
-  // si oui on affiche la couleur dans une liste 
-  // sinon on affiche un messge d'erreur
+  const inputValue = getInputValue();
+  //const liste = setListe(inputValue);
   const myColor = setColor(inputValue);
 
-  // on supprime le contenu du input 
-  const supInput = supprimeInputValue();
-
+  console.log(event);
 }
 
 function getInputValue() {
-  const input = document.querySelector("#colors-input");
+  const input = document.querySelector("#shop-item-input");
 
   // On récupère la valeur inscrite dans l'input
   let value = input.value;
 
   // On nettoie notre valeur en lui supprimant les espaces en début & fin de chaine
   value = value.trim();
-  
-  // On vérifie qu'une valeur est saisie
+
   if (value == "") {
-    console.log("Veuillez saisir une couleur.");
+    console.log("Veuillez saisir un produit.");
     return value;
   } else {
     return value;
+  }
+}
+
+function setListe(produit) {
+  if (produit !== "") {
+    const input = document.querySelector("#shop-items");
+    const listeItem = document.createElement("li");
+    listeItem.textContent = produit;
+    input.appendChild(listeItem);
   }
 }
 
@@ -58,7 +60,7 @@ function setColor(couleurHex) {
 
         // si on a retourné le bon format pour la couleur on 
         // l'affiche dans le DOM
-        const input = document.querySelector("#colors-list");
+        const input = document.querySelector("#shop-items");
         const listeItem = document.createElement("li");
         listeItem.style.color = couleurHex;
         listeItem.textContent = couleurHex;
@@ -69,40 +71,41 @@ function setColor(couleurHex) {
 
 function controlColor(couleurHex){
 
-    let bReturn = false;
-    const myColor = String(couleurHex) ;
-
     // On verifie que le nombre de carateres soit egal à 4 ou 7
     // et que la chaine commence par '#'
+
+    let bReturn = false;
+    const myColor = String(couleurHex) ;
     if ((myColor.length == 4 || myColor.length == 7 ) && myColor[0]=="#" ) {
+        console.log(myColor.length);
         
-        // on a bien une couleur hexadécimale
-        let msgErreur = document.querySelector("#colors-error");
-        
-        // si un message d'erreur etait affiché on le supprime
+        let msgErreur = document.querySelector("#shop pre");
         if (msgErreur !== null) {
-            msgErreur.textContent="";
+            msgErreur.remove();
         } 
         bReturn = true;
     
     }else{
     
         // sinon on affiche un message d'erreur
-        const msgErreur = document.querySelector("#colors-error");
-        msgErreur.style.color = 'red';
-        msgErreur.textContent = 'ceci n\'est pas une couleur';
+
+        const input = document.querySelector("#shop");
+        const msgErreur = document.createElement("pre");
+        console.log(msgErreur);
+        
+        // ToDo
+        // tester l'existence de <pre></pre> 
+        // si il n'existe pas on affiche le message
+            console.log(msgErreur);
+            msgErreur.style.color = 'red';
+            msgErreur.textContent = 'ceci n\'est pas une couleur';
+            input.appendChild(msgErreur);
+            
+       
     }
-
-return bReturn ;
-
+    return bReturn ;
 }
 
-function supprimeInputValue(){
 
-    const input = document.querySelector("#colors-input");
-
-    // On vide le contenu inscrit dans l'input
-    input.value = "";
-}
 
 document.addEventListener("DOMContentLoaded", init);

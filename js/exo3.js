@@ -22,8 +22,8 @@ function handleSubmit(event) {
   event.preventDefault();
 
   const inputValue = getInputValue();
-  //const liste = setListe(inputValue);
-  const myColor = setColor(inputValue);
+  const liste = setListe(inputValue);
+  
 
   console.log(event);
 }
@@ -53,59 +53,5 @@ function setListe(produit) {
     input.appendChild(listeItem);
   }
 }
-
-function setColor(couleurHex) {
-
-    if (controlColor(couleurHex)  ) {
-
-        // si on a retourné le bon format pour la couleur on 
-        // l'affiche dans le DOM
-        const input = document.querySelector("#shop-items");
-        const listeItem = document.createElement("li");
-        listeItem.style.color = couleurHex;
-        listeItem.textContent = couleurHex;
-        console.log (listeItem,'  '+couleurHex);
-        input.appendChild(listeItem);
-    }
-}
-
-function controlColor(couleurHex){
-
-    // On verifie que le nombre de carateres soit egal à 4 ou 7
-    // et que la chaine commence par '#'
-
-    let bReturn = false;
-    const myColor = String(couleurHex) ;
-    if ((myColor.length == 4 || myColor.length == 7 ) && myColor[0]=="#" ) {
-        console.log(myColor.length);
-        
-        let msgErreur = document.querySelector("#shop pre");
-        if (msgErreur !== null) {
-            msgErreur.remove();
-        } 
-        bReturn = true;
-    
-    }else{
-    
-        // sinon on affiche un message d'erreur
-
-        const input = document.querySelector("#shop");
-        const msgErreur = document.createElement("pre");
-        console.log(msgErreur);
-        
-        // todo
-        // tester l'existence de <pre></pre> 
-        // si il n'existe pas on affiche le message
-            console.log(msgErreur);
-            msgErreur.style.color = 'red';
-            msgErreur.textContent = 'ceci n\'est pas une couleur';
-            input.appendChild(msgErreur);
-            
-       
-    }
-    return bReturn ;
-}
-
-
 
 document.addEventListener("DOMContentLoaded", init);
